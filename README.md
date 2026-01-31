@@ -1,45 +1,51 @@
 # 🚀 Jenkins CI Pipeline – Docker Image Build & Push
 
-This project implements a **complete Continuous Integration (CI) pipeline** using **Jenkins**, **Docker**, and **GitHub**, where application code is automatically built into a Docker image and pushed to **Docker Hub**.
+This repository demonstrates a **real-world Continuous Integration (CI) pipeline** using **Jenkins**, **Docker**, and **GitHub**.  
+The pipeline automatically builds a Docker image from source code and pushes it to **Docker Hub** with proper versioning.
 
 ---
 
 ## 📌 Project Overview
 
-This pipeline automates the following workflow:
-      
-      GitHub → Jenkins → Docker Build → Docker Hub
+This project automates the following CI workflow:
 
-On every successful Jenkins run:
-1. Source code is fetched from GitHub
-2. A Docker image is built using a Dockerfile
-3. The image is tagged using the Jenkins build number
-4. Jenkins logs in securely to Docker Hub
-5. The image is pushed to Docker Hub
+GitHub → Jenkins → Docker Build → Docker Hub
+
+
+Whenever the pipeline runs successfully, Jenkins:
+- Pulls the latest code from GitHub
+- Builds a Docker image using a Dockerfile
+- Tags the image using the Jenkins build number
+- Authenticates securely with Docker Hub
+- Pushes the image to Docker Hub
 
 ---
 
 ## 🛠️ Technologies Used
 
-- Jenkins – CI automation
-- Docker – Containerization
-- Docker Hub – Image registry
-- Git & GitHub – Version control
-- Nginx – Web server
-- Linux (Ubuntu) – Jenkins host OS
+- **Jenkins** – Continuous Integration automation
+- **Docker** – Containerization platform
+- **Docker Hub** – Container image registry
+- **Git & GitHub** – Source code management
+- **Nginx** – Web server (base image)
+- **Linux (Ubuntu)** – Jenkins host OS
 
 ---
 
 ## 📂 Project Structure
+
 my-docker-app/
 ├── Dockerfile
 ├── Jenkinsfile
 ├── index.html
 └── README.md
 
+
 ---
 
 ## 🐳 Dockerfile
+
+The application uses a lightweight **Nginx Alpine** image to serve a static web page.
 
 ```dockerfile
 FROM nginx:1.25-alpine
@@ -47,108 +53,82 @@ COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
 
 ---
+⚙️ Jenkins Pipeline Stages
+1️⃣ Checkout SCM
+Jenkins automatically checks out the source code from the GitHub repository.
 
-## ⚙️ Jenkins Pipeline Stages
+2️⃣ Build Docker Image
+The Docker image is built using the Dockerfile and tagged with the Jenkins build number.
 
-The pipeline consists of the following stages:
+3️⃣ Docker Hub Login
+Jenkins logs in to Docker Hub using credentials stored securely in Jenkins.
 
-### 🧾 1. Checkout SCM
-Jenkins automatically pulls the project code from the linked GitHub repository.
+4️⃣ Push Docker Image
+The versioned Docker image is pushed to Docker Hub.
 
-### 🏗️ 2. Build Docker Image
-Jenkins builds the Docker image based on your `Dockerfile` and tags it using the Jenkins build number.
-
-### 🔐 3. Docker Hub Login
-Jenkins logs in to Docker Hub using securely stored credentials.
-
-### 📤 4. Push Docker Image
-Jenkins pushes the tagged image to your Docker Hub repository.
+---
+🔐 Credentials Management
+-Docker Hub credentials are stored securely in Jenkins Credentials
+-Credential ID used in the pipeline:
+      dockerhub-creds
+-No sensitive information is hardcoded in the Jenkinsfile
 
 ---
 
-## 🔐 Credentials Management
-
-- Docker Hub credentials are stored securely in **Jenkins Credentials**
-- The credential ID used in the pipeline is:
-
-dockerhub-creds
-
-- Sensitive data like passwords are **NOT hardcoded** inside the Jenkinsfile.
-
----
-
-## 🏷️ Docker Image Versioning
-
-Images are versioned using Jenkins build numbers.
-
-Examples:
+🏷️ Docker Image Versioning
+Docker images are tagged using Jenkins build numbers:
 
 meghaamanickam/meghaa-app:1
 meghaamanickam/meghaa-app:2
 meghaamanickam/meghaa-app:3
 meghaamanickam/meghaa-app:4
 
-
 Benefits:
-- 📌 Clear version tracking  
-- 🔄 Easy rollback to a previous build  
-- 📊 Better traceability between Git commits and Docker images
+✔ Clear version tracking
+✔ Easy rollback to previous builds
+✔ Strong build and deployment traceability
 
 ---
 
-## ▶️ How to Run
-
-1. Install Jenkins and Docker on a Linux machine.
-2. Install the following Jenkins plugins:
-   - Git
-   - GitHub
-   - Docker Pipeline
-   - Credentials Binding
-3. Add your Docker Hub credentials in Jenkins (ID: `dockerhub-creds`).
-4. Create a **Pipeline** job in Jenkins.
-5. Link the job to this GitHub repository.
-6. Run **Build Now** or trigger via webhook on GitHub push.
-
----
-
-## ✅ Result
-
-When the pipeline runs successfully:
-
-- Docker image is built
-- Image is pushed to Docker Hub
-- Jenkins build output shows:
-
-Finished: SUCCESS
+▶️ How to Run the Pipeline
+1.Install Jenkins and Docker on a Linux machine
+2.Install required Jenkins plugins:
+      -Git
+      -GitHub
+      -Docker Pipeline
+      -Credentials Binding
+3.Add Docker Hub credentials in Jenkins (dockerhub-creds)
+4.Create a Jenkins Pipeline job
+5.Link the job to this GitHub repository
+6.Click Build Now or trigger via webhook
 
 ---
 
-## 🎯 Key Learnings
+✅ Result
+On successful execution:
+      -Docker image is built successfully
+      -Image is pushed to Docker Hub
+      -Jenkins job status shows:
+            Finished: SUCCESS
+---
 
-With this pipeline you learned:
-
-- CI setup with Jenkins
-- Automatic Docker builds
-- Secure credential management
-- Docker image versioning
-- Automation of pushes to Docker Hub
+🎯 Key Learnings
+-Jenkins pipeline configuration from SCM
+-Secure credential management
+-Docker image build and push automation
+-CI pipeline best practices
+-Real-world DevOps workflow implementation
 
 ---
 
-## 🚀 Future Enhancements
-
-Here are some improvements you can add:
-
-- ⏱  GitHub webhook automation
-- ☸️  Kubernetes deployment (MicroK8s)
-- 🔔  CI notifications (Slack / Email)
-- 📦 Full CI/CD workflow with deployment stages
+🚀 Future Enhancements
+-GitHub webhook for automatic triggering
+-Kubernetes deployment using MicroK8s
+-CI notifications (Slack / Email)
+-Extension to a full CI/CD pipeline
 
 ---
 
-## 👩‍💻 Author
-
-**Meghaa Manickam**  
+👩‍💻 Author
+Meghaa Manickam
 DevOps & Cloud Enthusiast
-
----
