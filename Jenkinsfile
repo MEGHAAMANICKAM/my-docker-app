@@ -12,12 +12,6 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
-            steps {
-                git 'https://github.com/MEGHAAMANICKAM/my-docker-app.git'
-            }
-        }
-
         stage('Build Image') {
             steps {
                 sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
@@ -27,7 +21,7 @@ pipeline {
         stage('DockerHub Login') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds1',
+                    credentialsId: 'dockerhub-creds',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
@@ -43,4 +37,3 @@ pipeline {
         }
     }
 }
-
