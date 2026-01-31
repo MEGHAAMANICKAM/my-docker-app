@@ -47,7 +47,7 @@ COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
 
 ---
-## ⚙️ Jenkins Pipeline Stages
+**## ⚙️ Jenkins Pipeline Stages**
 
 ### 1. Checkout SCM
 Jenkins automatically pulls the source code from the GitHub repository.
