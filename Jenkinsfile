@@ -5,6 +5,11 @@ pipeline {
         githubPush()
     }
 
+    environment {
+        IMAGE_NAME = "meghaamanickam/meghaa-app"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+
     stages {
 
         stage('Clone') {
@@ -15,7 +20,7 @@ pipeline {
 
         stage('Build Image') {
             steps {
-                sh 'docker build -t meghaamanickam/meghaa-app .'
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
             }
         }
 
@@ -23,19 +28,19 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'USER',
-                    passwordVariable: 'PASS'
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
-
+                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
                 }
             }
         }
 
         stage('Push Image') {
             steps {
-                sh 'docker push meghaamanickam/meghaa-app'
+                sh "docker push $IMAGE_NAME:$IMAGE_TAG"
             }
         }
     }
 }
+
